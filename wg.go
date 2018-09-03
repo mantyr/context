@@ -14,6 +14,10 @@ var (
 	canceled = CanceledError("context canceled")
 )
 
+func init() {
+	close(closedchan)
+}
+
 // CanceledError эта ошибка говорит о том что контекст закрыт
 type CanceledError string
 
@@ -42,7 +46,7 @@ type waitGroupContext struct {
 func WaitGroupContext(
 	parent context.Context,
 ) (
-	context.Context,
+	WGContext,
 	context.CancelFunc,
 ) {
 	ctx := &waitGroupContext{

@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mantyr/context.svg?branch=master)][build_status]
 [![GoDoc](https://godoc.org/github.com/mantyr/context?status.png)][godoc]
-[![Go Report Card](https://goreportcard.com/badge/github.com/mantyr/context?v=1)][goreport]
+[![Go Report Card](https://goreportcard.com/badge/github.com/mantyr/context?v=2)][goreport]
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
 
 ## Installation
@@ -28,16 +28,23 @@
     }
 
     func main() {
-        ctx, cancel := ct.WaitGroupCancel(context.Background())
-        ctx.Add(1)
+        ctx, cancel := ct.WaitGroupContext(context.Background())
+        err := ctx.Add(1)
+        if err != nil {
+            // context closed
+        }
         ctx.Add(1)
         ctx.Delete()
         ctx.Delete()
         cancel()
 
         select {
-        case <- ctx.Done()
-        case <- ctx.Wait()
+        case <- ctx.Done():
+            // context closed
+        case <- ctx.Wait():
+            // context closed and all operations completed
+        default:
+            // context open
         }
     }
 
