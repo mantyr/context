@@ -8,12 +8,15 @@ import (
 
 var (
 	// closedchan это многоразовый закрытый канал
+	// nolint:gochecknoglobals
 	closedchan = make(chan struct{})
 
 	// canceled это ошибка свидетельствует о том что контекст закрыт
+	// nolint:gochecknoglobals
 	canceled = CanceledError("context canceled")
 )
 
+// nolint:gochecknoinits
 func init() {
 	close(closedchan)
 }
