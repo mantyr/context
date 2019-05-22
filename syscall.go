@@ -14,6 +14,7 @@ type waitSyscallContext struct {
 }
 
 // WaitSyscallContext возвращает контекст который закрывается по сигналу
+//
 // Внимание, перед использованием изучите работу signal.Notify
 func WaitSyscallContext(
 	ctx context.Context,
